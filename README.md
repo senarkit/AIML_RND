@@ -2,17 +2,20 @@
 
 ## Host an API
 
-### Start Server
-`uvicorn main:app --reload`
+### Start API Server [use either method]
+a) `uvicorn main:app --reload`
+b) `fastapi run .\main.py` OR to multiprocess `fastapi run --workers 4 .\main.py`
 
 
 
-## Steps in the Codebase :
-1. Create a virtual env
-`py -m -3.11 venv venv_py311`
+### API Client Call : Phase 1
+a) Check notebook : `client_script.ipynb`
+```
+import requests
+response = requests.get("http://127.0.0.1:8000/data")
+data = response.json()
+```
 
-2. Run main.py using below command :
-`uvicorn main:app --reload`
 
-3. use the script `client_script.ipynb`
-to check the API Client call examples.
+### Reference : 
+https://fastapi.tiangolo.com/#create-it
