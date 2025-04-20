@@ -12,9 +12,9 @@ b) `fastapi run .\main.py` OR to multiprocess `fastapi run --workers 4 .\main.py
 
 
 
-### API Client Call : 30 Mins Expiration OAuth2 JSON Web Token (Header, Payload, Signature)
-Check notebook : `client_script.ipynb`
-
+### API Client Call : 
+Check notebook : `client_script.ipynb` <br>
+Note: 30 Mins Expiration OAuth2 JSON Web Token (Header, Payload, Signature)<br>
 
 ### Reference : 
 https://fastapi.tiangolo.com/#create-it
