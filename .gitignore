@@ -1,5 +1,8 @@
 # Prerequisites
 *.d
+venv/
+__pycache__/
+
 
 # Object files
 *.o
