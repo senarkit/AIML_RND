@@ -19,3 +19,8 @@ data = response.json()
 
 ### Reference : 
 https://fastapi.tiangolo.com/#create-it
+
+
+##### WIP:
+1) token-based auth, OAuth2
+2) multiple API keys & user roles

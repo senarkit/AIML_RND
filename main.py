@@ -6,7 +6,7 @@ import random
 app = FastAPI()
 
 # === Config ===
-API_KEY = "mysecretkey123"  # Store this Key Secure
+API_KEY = "mysecretkey123"  # my API key
 
 # === Models ===
 class DataPoint(BaseModel):
