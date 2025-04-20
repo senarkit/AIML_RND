@@ -12,17 +12,8 @@ b) `fastapi run .\main.py` OR to multiprocess `fastapi run --workers 4 .\main.py
 
 
 
-### API Client Call : Phase 1
-a) Check notebook : `client_script.ipynb`
-```
-import requests
-API_KEY = "XXXX"
-headers = {
-    "X-API-Key": API_KEY
-}
-response = requests.get("http://127.0.0.1:8000/data", headers=headers)
-data = response.json()
-```
+### API Client Call : 30 Mins Expiration OAuth2 JSON Web Token (Header, Payload, Signature)
+Check notebook : `client_script.ipynb`
 
 
 ### Reference : 
