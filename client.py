@@ -72,9 +72,7 @@ if __name__ == "__main__":
     # Log in to get the token
     token = login()
 
+    # This is used to update the user details - token as input
     if token:
-        # Use the token to update the password
         update_password(token)
-
-        # Use the token to update the phone number
         update_phone_number(token)
