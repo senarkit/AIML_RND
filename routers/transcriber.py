@@ -1,13 +1,53 @@
-from fastapi import APIRouter, HTTPException, Header
-from helper.utils import verify_token
+from fastapi import APIRouter, WebSocket
+from fastapi.responses import HTMLResponse
+import json
 
 router = APIRouter()
 
-# Protected endpoint that requires a valid token
-@router.get("/data")
-def get_data(username: str, token: str = Header(...)):  # Token must be passed in request headers
-    if verify_token(username, token):
-        # If token is valid, return dummy data
-        return {"data": f"Welcome {username}, here is your data."}
-    # Raise 403 if token is invalid or missing
-    raise HTTPException(status_code=403, detail="Invalid token")
+html = """
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>WebSocket Chat</title>
+    </head>
+    <body>
+        <h1>WebSocket Chat</h1>
+        <form action="" onsubmit="sendMessage(event)">
+            <input type="text" id="messageText" autocomplete="off"/>
+            <button>Send</button>
+        </form>
+        <ul id='messages'></ul>
+        <script>
+            var ws = new WebSocket("ws://localhost:8000/transcriber/ws");
+            ws.onmessage = function(event) {
+                var messages = document.getElementById("messages")
+                var message = document.createElement("li")
+                var content = document.createTextNode(event.data)
+                message.appendChild(content)
+                messages.appendChild(message)
+            };
+            function sendMessage(event) {
+                var input = document.getElementById("messageText")
+                ws.send(input.value)
+                input.value = ''
+                event.preventDefault()
+            }
+        </script>
+    </body>
+</html>
+"""
+
+@router.get("/index")
+async def index():
+    return {"message": "Transcriber capabilities enable STT from real-time audio streams and recorded files."}
+
+@router.get("/index/ws")
+async def get():
+    return HTMLResponse(html)
+
+@router.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
