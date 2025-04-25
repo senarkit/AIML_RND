@@ -14,12 +14,22 @@ def sign_up():
         "role": "user",
         "phone_number": "1234567890"
     }
-    
+
     response = requests.post(url, json=payload)
+    print(f"Response Status Code: {response.status_code}")
+    
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError:
+        print("Error: Server returned non-JSON response.")
+        print("Raw response:", response.text)
+        return
+
     if response.status_code == 201:
-        print("User created successfully!")
+        print("Successful : ", data["message"])
     else:
-        print(f"Error: {response.status_code} - {response.json()}")
+        print("Sign Up - Error : ", data.get("detail", "Unknown error"))
+
 
 def login():
     url = f"{BASE_URL}/auth/token"
@@ -27,15 +37,24 @@ def login():
         "username": "test_user",
         "password": "password123"
     }
-    
+
     response = requests.post(url, data=payload)
+
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError:
+        print("Login failed: Server did not return valid JSON.")
+        print("Raw response:", response.text)
+        return None
+
     if response.status_code == 200:
-        token = response.json()['access_token']
-        print(f"Login successful. Access token: {token}")
+        token = data['access_token']
+        print(f"User Login : Successful. \nAccess token: {token}")
         return token
     else:
-        print(f"Error: {response.status_code} - {response.json()}")
+        print(f"Error: {response.status_code} - {data.get('detail', 'Unknown error')}")
         return None
+
 
 def update_password(token):
     url = f"{BASE_URL}/user/password"

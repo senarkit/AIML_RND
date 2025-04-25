@@ -45,6 +45,9 @@ def create_access_token(data: dict, expires_delta: timedelta):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
+
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(
     create_user_request: CreateUserRequest,
@@ -59,10 +62,14 @@ async def create_user(
         hashed_password=bcrypt_context.hash(create_user_request.password),
         phone_number=create_user_request.phone_number
     )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return {"message": "User created successfully"}
+    try:
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        return {"message": "User created successfully"}
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="User with same username or email already exists")
 
 @router.post("/token", response_model=TokenResponse)
 async def login_for_access_token(
@@ -73,18 +80,28 @@ async def login_for_access_token(
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Invalid username or password")
+    
     access_token = create_access_token(
         data={"sub": user.username, "id": user.id, "role": user.role},
         expires_delta=timedelta(minutes=30)
     )
-    # Save token to DB
-    db_token = Token(
-        serviceAccount=user.username,
-        pladaName="dummyPlada",
-        clientName="dummyClient",
-        tokenVal=access_token
-    )
-    db.add(db_token)
+
+    # New logic: Update or insert token
+    existing_token = db.query(Token).filter(Token.serviceAccount == user.username).first()
+
+    if existing_token:
+        existing_token.tokenVal = access_token
+        existing_token.tokenExp = 1  # Update expiry if you want
+        existing_token.is_active = True
+    else:
+        db_token = Token(
+            serviceAccount=user.username,
+            pladaName="dummyPlada",
+            clientName="dummyClient",
+            tokenVal=access_token
+        )
+        db.add(db_token)
+
     db.commit()
 
     return {"access_token": access_token, "token_type": "bearer"}
