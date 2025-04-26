@@ -22,12 +22,12 @@ In separate terminal run : `python client.py`<br><br>
 a) Register / SignUp a new user. If the user already exists it skips updating <br>
 ![Client Run - Terminal](./data/client_terminal.png) <br><br>
 b) It updates a SQL DB at the backend. Use the below code or check Notebook : `peek_db.ipynb` <br>
-```
-import pandas as pd
-import sqlite3
-conn = sqlite3.connect("./data/db.sqlite3")
-df_users = pd.read_sql_query("SELECT * FROM Users", conn)
-df_token = pd.read_sql_query("SELECT * FROM tbl_token", conn)
-print(df_token.tokenVal.values[0])
-```
+    ```
+    import pandas as pd
+    import sqlite3
+    conn = sqlite3.connect("./data/db.sqlite3")
+    df_users = pd.read_sql_query("SELECT * FROM Users", conn)
+    df_token = pd.read_sql_query("SELECT * FROM tbl_token", conn)
+    print(df_token.tokenVal.values[0])
+    ```
 c) Additionally corresponding websocket and http endpoint is available in transcriber.py
