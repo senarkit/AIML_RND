@@ -30,5 +30,4 @@ df_users = pd.read_sql_query("SELECT * FROM Users", conn)
 df_token = pd.read_sql_query("SELECT * FROM tbl_token", conn)
 print(df_token.tokenVal.values[0])
 ```
-<br><br>
 c) Additionally corresponding websocket and http endpoint is available in transcriber.py
