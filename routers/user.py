@@ -7,12 +7,13 @@ from helper.models import Users, Token
 from helper.database import get_db
 from passlib.context import CryptContext
 from jose import jwt, JWTError
+from fastapi import Response
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 db_dependency = Annotated[Session, Depends(get_db)]
 
 router = APIRouter(
-    prefix="/user",
+    # prefix="/user",
     tags=["user"]
 )
 
@@ -37,7 +38,7 @@ async def get_users(
     user_model = db.query(Users).filter(Users.id == user.get("id")).first()
     return user_model
 
-@router.put("/password", status_code=status.HTTP_204_NO_CONTENT)
+@router.put("/password", status_code=status.HTTP_200_OK)
 async def change_password(
     user: Annotated[dict, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
@@ -47,16 +48,20 @@ async def change_password(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
     
     user_model = db.query(Users).filter(Users.id == user.get("id")).first()
-    
+    if not user_model:
+        raise HTTPException(status_code=404, detail="User not found")
+
     if not bcrypt_context.verify(user_verification.password, user_model.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password")
     
     user_model.hashed_password = bcrypt_context.hash(user_verification.new_password)
     db.commit()
     db.refresh(user_model)
+
     return {"message": "Password updated successfully"}
 
-@router.put("/phonenumber/{phone_number}", status_code=status.HTTP_204_NO_CONTENT)
+
+@router.put("/phonenumber/{phone_number}", status_code=status.HTTP_200_OK)
 async def update_phone_number(
     user: Annotated[dict, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
@@ -66,8 +71,13 @@ async def update_phone_number(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
     
     user_model = db.query(Users).filter(Users.id == user.get("id")).first()
+    if not user_model:
+        raise HTTPException(status_code=404, detail="User not found")
+
     user_model.phone_number = phone_number
-    db.add(user_model)
     db.commit()
     db.refresh(user_model)
+
     return {"message": "Phone number updated successfully"}
+
+
