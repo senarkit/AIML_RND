@@ -30,7 +30,6 @@ def sign_up():
     else:
         print("Sign Up - Error : ", data.get("detail", "Unknown error"))
 
-
 def login():
     url = f"{BASE_URL}/auth/token"
     payload = {
@@ -55,15 +54,14 @@ def login():
         print(f"Error: {response.status_code} - {data.get('detail', 'Unknown error')}")
         return None
 
-
 def update_password(token):
     url = f"{BASE_URL}/user/password"
     headers = {
         "Authorization": f"Bearer {token}"
     }
     payload = {
-        "password": "password123",
-        "new_password": "new_password123"
+        "password": "password123",  # current password
+        "new_password": "new_password123"  # new password
     }
 
     response = requests.put(url, json=payload, headers=headers)
@@ -73,7 +71,8 @@ def update_password(token):
         print(f"Error: {response.status_code} - {response.json()}")
 
 def update_phone_number(token):
-    url = f"{BASE_URL}/user/phonenumber/0987654321"
+    phone_number = "0987654321"  # New phone number
+    url = f"{BASE_URL}/user/phonenumber/{phone_number}"
     headers = {
         "Authorization": f"Bearer {token}"
     }

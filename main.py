@@ -4,7 +4,7 @@ from routers import auth, transcriber, user
 from helper.database import engine, Base
 from helper.models import Token, Users
 
-# Create the database tables if they don't already exist
+# Creates a database session if not already exists
 Base.metadata.create_all(bind=engine)
 
 # Initialize the FastAPI app
@@ -17,7 +17,7 @@ app.include_router(user.router, prefix="/user", tags=["user"])
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the API! Use /auth for authentication, /user for user management, and /transcriber for transcriber functionality."}
+    return {"message": "Welcome to the Transcriber API Service! Use /auth for authentication, /user for user management, and /transcriber for transcriber functionality."}
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
