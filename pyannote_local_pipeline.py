@@ -146,7 +146,7 @@ diarization = pipeline(AUDIO_FILE)
 # ╔════════════════════════════════════════════════════════════════════════════╗
 # ║                           5) Save & Display Output                         ║
 # ╚════════════════════════════════════════════════════════════════════════════╝
-out_rttm = Path(AUDIO_FILE).stem + "_local.rttm"
+out_rttm = "data/" + Path(AUDIO_FILE).stem + "_local.rttm"
 with open(out_rttm, "w") as f:
     diarization.write_rttm(f)
 
