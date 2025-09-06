@@ -27,7 +27,7 @@ warnings.filterwarnings("ignore", message="torchaudio._backend.list_audio_backen
 BASE = Path(__file__).resolve().parent.as_posix()
 SEG_SF = Path(BASE) / "segmentation" / "model.safetensors"
 EMB_SF = Path(BASE) / "embedding" / "model.safetensors"
-AUDIO_FILE = "data/multi_speaker_overlapped.wav"
+AUDIO_FILE = "data/candice.wav"
 
 
 # ╔════════════════════════════════════════════════════════════════════════════╗

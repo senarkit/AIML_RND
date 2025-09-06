@@ -2,7 +2,7 @@
 from pyannote.audio import Pipeline
 from huggingface_hub import HfFolder
 
-audio = "data/multi_speaker_overlapped.wav"
+audio = "data/candice.wav"
 
 token = HfFolder.get_token()
 pipeline = Pipeline.from_pretrained(
