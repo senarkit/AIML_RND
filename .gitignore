@@ -1,55 +1,41 @@
-# Prerequisites
-*.d
-venv/
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
 
+# Output (ChromaDB vectors)
+chroma_db/
+diarization/
+embedding/
+logs/
+output/
+segmentation/
+temp/
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# Environment configurations & Secrets (Ensures keys don't get committed)
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
 
-# Linker output
-*.ilk
-*.map
-*.exp
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
 
-# Precompiled Headers
-*.gch
-*.pch
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
