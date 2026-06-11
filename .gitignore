@@ -1,7 +1,10 @@
-# THis project additions
+# This project additions
 *.pyc
+data/*.csv
 data/*.graphml
 data/*.html
+data/knowledge_graph_triples.csv
+.env
 
 
 # Prerequisites
