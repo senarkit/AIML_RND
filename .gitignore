@@ -1,3 +1,9 @@
+# THis project additions
+*.pyc
+data/*.graphml
+data/*.html
+
+
 # Prerequisites
 *.d
 venv/

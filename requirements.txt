@@ -1,0 +1,6 @@
+pandas
+networkx
+pyvis
+python-dotenv
+openai
+transformers
